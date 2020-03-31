@@ -7,8 +7,10 @@ Eben ganz im simplen Mario-Style
 Weitere Features: Sound, Bilder(selbstverständlich), Game Menu
 
 Vorgehensweise:
-1.Erstellung des main game loops + fenster zur anzeige 
-2.event handler + viereck, das sich bewegen und springen kann, spieler soll nicht aus Window laufen können
+1.Erstellung des main game loops + fenster zur anzeige ======== erledigt
+2.event handler + viereck, das sich bewegen und springen kann ====== erledigt
+
+-spieler soll nicht aus Window laufen können 
 3.erstellen einer enemy class, die es ermöglicht mehrere feinde zu zeichnen (erst noch als viereck)
 4.einfache interaktion zwischen spieler und feind
 5.hinzufügen eines hintergrundbildes, das mit bewegung des spielers interagiert
