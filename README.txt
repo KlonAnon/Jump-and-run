@@ -22,5 +22,5 @@ Mögliche Erweiterungsansätze:
 -Online Gaming
 -Bot(KI)
 
-moin hi
+
 
