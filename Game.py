@@ -35,11 +35,23 @@ def player_handler(player):
                 player.jump()
         if player.isJumping:
             player.jump()
+
+#function for working with enemy objects (creating and removing)
+def enemy_func(enemyList):
+    if not paused:
+        if not len(enemyList) > 1:
+            enemyList.append(Enemy())
+        for enemy in enemyList:
+            enemy.move()
+            if enemy.x + enemy.width <= 0:
+                enemyList.clear()
             
 #function for updating the displayed window
 def window_updater(player): 
     window.fill(white)
     player.draw(window)
+    for enemy in enemyList:
+        enemy.draw(window)
     pygame.display.flip()
 
 #creating the displayed window
@@ -47,8 +59,9 @@ win_width, win_height = 1000, 600
 window = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Jump and run")
 
-#creating the player instance
+#creating the player instance and list to store enemy objects
 player = Player()
+enemyList = []
 
 #color variables
 white = (255, 255, 255)
@@ -63,8 +76,8 @@ while running:
     
     event_handler()
     player_handler(player)
+    enemy_func(enemyList)
     window_updater(player)
 
 #quit everything
 pygame.quit()
-    
