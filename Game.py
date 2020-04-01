@@ -1,41 +1,6 @@
+from classes import *
 import pygame
 pygame.init()
-
-#class for the player
-class Player():
-    def __init__(self, width, height, x, y):
-        self.width = width
-        self.height = height
-        self.x = x
-        self.y = y
-        self.surf = pygame.Surface((self.width, self.height))
-        self.vel = 10
-        self.isJumping = False
-        self.jumpVelocity = 10
-
-    def draw(self):
-        window.blit(self.surf, (self.x, self.y))
-
-    def move(self, direction):
-        if direction == "left":
-            self.x -= self.vel
-        if direction == "right":
-            self.x += self.vel
-        if self.x <=0:
-            self.x = 0
-        elif self.x >=950:
-            self.x = 950
-
-    def jump(self):
-        if self.jumpVelocity >= -10:
-            multiplier = 1
-            if self.jumpVelocity < 0:
-                multiplier = -1
-            self.y -= self.jumpVelocity ** 2 // 2 * multiplier
-            self.jumpVelocity -= 1
-        else:
-            self.jumpVelocity = 10
-            self.isJumping = False
 
 #function for basic event handling        
 def event_handler():
@@ -74,16 +39,16 @@ def player_handler(player):
 #function for updating the displayed window
 def window_updater(player): 
     window.fill(white)
-    player.draw()
+    player.draw(window)
     pygame.display.flip()
-
-#creating the player instance
-player = Player(50, 50, 50, 300)
 
 #creating the displayed window
 win_width, win_height = 1000, 600
 window = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Jump and run")
+
+#creating the player instance
+player = Player()
 
 #color variables
 white = (255, 255, 255)

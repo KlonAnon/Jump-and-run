@@ -21,6 +21,3 @@ Vorgehensweise:
 Mögliche Erweiterungsansätze:
 -Online Gaming
 -Bot(KI)
-
-
-
