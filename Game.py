@@ -21,10 +21,14 @@ class Player():
             self.x -= self.vel
         if direction == "right":
             self.x += self.vel
+        if self.x <=0:
+            self.x = 0
+        elif self.x >=950:
+            self.x = 950
 
     def jump(self):
         if self.jumpVelocity >= -10:
-            multiplier = 1 
+            multiplier = 1
             if self.jumpVelocity < 0:
                 multiplier = -1
             self.y -= self.jumpVelocity ** 2 // 2 * multiplier
