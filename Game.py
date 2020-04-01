@@ -25,9 +25,9 @@ def player_handler(player):
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_LEFT]:
-            player.move("left")
+            player.move("left", window)
         if keys[pygame.K_RIGHT]:
-            player.move("right")
+            player.move("right", window)
 
         if not player.isJumping:
             if keys[pygame.K_SPACE]:
