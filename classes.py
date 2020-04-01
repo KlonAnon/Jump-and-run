@@ -16,15 +16,17 @@ class Player():
     def draw(self, window):
         window.blit(self.surf, (self.x, self.y))
 
-    def move(self, direction):
+    def move(self, direction, window):
         if direction == "left":
             self.x -= self.vel
         if direction == "right":
             self.x += self.vel
         if self.x <=0:
             self.x = 0
-        elif self.x >=950:
-            self.x = 950
+        elif self.x >=window.get_width()-self.width:
+            self.x = window.get_width()-self.width 
+
+                   
 
     def jump(self):
         if self.jumpVelocity >= -10:
