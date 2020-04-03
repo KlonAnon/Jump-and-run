@@ -20,14 +20,13 @@ def event_handler():
 
 #function for handling the events of the player
 def player_handler(player):
-
-    if not paused:
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_LEFT]:
-            player.move("left", window)
+            player.move_left()
         if keys[pygame.K_RIGHT]:
-            player.move("right", window)
+            player.move_right()
+        player.window_boundaries(window)
 
         if not player.isJumping:
             if keys[pygame.K_SPACE]:
@@ -38,11 +37,10 @@ def player_handler(player):
 
 #function for working with enemy objects (creating and removing)
 def enemy_func(enemyList):
-    if not paused:
         if not len(enemyList) > 1:
-            enemyList.append(Enemy())
+            enemyList.append(Enemy(50,50,1000,300,8))
         for enemy in enemyList:
-            enemy.move()
+            enemy.move_left()
             if enemy.x + enemy.width <= 0:
                 enemyList.clear()
             
@@ -60,7 +58,7 @@ window = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Jump and run")
 
 #creating the player instance and list to store enemy objects
-player = Player()
+player = Player(50,50,50,300,10)
 enemyList = []
 
 #color variables
@@ -75,8 +73,9 @@ while running:
     pygame.time.wait(25)
     
     event_handler()
-    player_handler(player)
-    enemy_func(enemyList)
+    if not paused:
+        player_handler(player)
+        enemy_func(enemyList)
     window_updater(player)
 
 #quit everything

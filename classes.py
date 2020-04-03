@@ -1,27 +1,38 @@
 import pygame
 pygame.init()
 
+#superclass for game graphics
+class GameGraphics():
+    def __init__(self, width, height, x, y, vel, img = None):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        self.vel = vel
+
+        if img != None:
+            self.graphic = pygame.transform.scale(pygame.image.load(img), (self.width, self.height))
+        else:
+            self.graphic = pygame.Surface((self.width, self.height))
+
+    def draw(self, window):
+        window.blit(self.graphic, (self.x, self.y))
+
+    def move_left(self):
+        self.x -= self.vel
+
+    def move_right(self):
+        self.x += self.vel
+    
 #class for the player
-class Player():
-    def __init__(self):
-        self.width = 50
-        self.height = 50
-        self.x = 50
-        self.y = 300
-        self.surf = pygame.Surface((self.width, self.height))
-        self.vel = 10
+class Player(GameGraphics):
+    def __init__(self, width, height, x, y, vel, img = None):
+        super().__init__(width, height, x, y, vel, img)
+        
         self.isJumping = False
         self.jumpVelocity = 10
 
-    def draw(self, window):
-        window.blit(self.surf, (self.x, self.y))
-
-    def move(self, direction, window):
-        if direction == "left":
-            self.x -= self.vel
-        if direction == "right":
-            self.x += self.vel
-            
+    def window_boundaries(self, window):   
         if self.x <= 0:
             self.x = 0
         elif self.x >= window.get_width() - self.width:
@@ -39,17 +50,6 @@ class Player():
             self.isJumping = False
 
 #class for the enemy
-class Enemy():
-    def __init__(self):
-        self.width = 50
-        self.height = 50
-        self.x = 1000
-        self.y = 300
-        self.surf = pygame.Surface((self.width, self.height))
-        self.vel = 8
-
-    def draw(self, window):
-        window.blit(self.surf, (self.x, self.y))
-
-    def move(self):
-        self.x -= self.vel
+class Enemy(GameGraphics):
+    def __init__(self, width, height, x, y, vel, img = None):
+        super().__init__(width, height, x, y, vel, img)
