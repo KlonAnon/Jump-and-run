@@ -49,7 +49,21 @@ class Player(GameGraphics):
             self.jumpVelocity = 10
             self.isJumping = False
 
-#class for the enemy
+#class for enemies
 class Enemy(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
+
+#class for backgrounds
+class Background(GameGraphics):
+    def __init__(self, width, height, x, y, vel, img = None):
+        super().__init__(width, height, x, y, vel, img)
+
+    def reposition_right(self):
+        if self.x == -1 * self.width:
+            self.x = self.width
+
+    def reposition_left(self):
+        if self.x == self.width:
+            self.x = -1 * self.width
+        

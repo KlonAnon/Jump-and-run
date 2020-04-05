@@ -23,10 +23,15 @@ def player_handler(player):
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_LEFT]:
-            player.move_left()
+            bg1.move_right()
+            bg2.move_right()
+            for background in backgrounds:
+                background.reposition_left()
         if keys[pygame.K_RIGHT]:
-            player.move_right()
-        player.window_boundaries(window)
+            bg1.move_left()
+            bg2.move_left()
+            for background in backgrounds:
+                background.reposition_right()
 
         if not player.isJumping:
             if keys[pygame.K_SPACE]:
@@ -46,7 +51,8 @@ def enemy_func(enemyList):
             
 #function for updating the displayed window
 def window_updater(player): 
-    window.fill(white)
+    for background in backgrounds:
+        background.draw(window)
     player.draw(window)
     for enemy in enemyList:
         enemy.draw(window)
@@ -57,12 +63,12 @@ win_width, win_height = 1000, 600
 window = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Jump and run")
 
-#creating the player instance and list to store enemy objects
-player = Player(50,50,50,300,10)
+#creating necessary objects
+player = Player(width=50, height=50, x=win_width//2, y=300, vel=10)
 enemyList = []
-
-#color variables
-white = (255, 255, 255)
+bg1 = Background(win_width, win_height, x=0, y=0, vel=10, img="BG1.png")
+bg2 = Background(win_width, win_height, x=win_width, y=0, vel=10, img="BG1.png")
+backgrounds = [bg1, bg2]
 
 #game flow variables           
 running = True
@@ -75,7 +81,7 @@ while running:
     event_handler()
     if not paused:
         player_handler(player)
-        enemy_func(enemyList)
+        #enemy_func(enemyList)
     window_updater(player)
 
 #quit everything
