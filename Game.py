@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 #function for basic event handling        
-def event_handler():
+def BasicEvent_handler():
     global running
     global paused
     
@@ -19,19 +19,16 @@ def event_handler():
                     paused = False
 
 #function for handling the events of the player
-def player_handler(player):
+def key_handler(player):
         keys = pygame.key.get_pressed()
-        
-        if keys[pygame.K_LEFT]:
-            bg1.move_right()
-            bg2.move_right()
-            for background in backgrounds:
-                background.reposition_left()
-        if keys[pygame.K_RIGHT]:
-            bg1.move_left()
-            bg2.move_left()
-            for background in backgrounds:
-                background.reposition_right()
+
+        for background in backgrounds:
+            if keys[pygame.K_LEFT]:
+                background.move_right()
+            if keys[pygame.K_RIGHT]:
+                background.move_left()
+
+            background.reposition()
 
         if not player.isJumping:
             if keys[pygame.K_SPACE]:
@@ -51,11 +48,12 @@ def enemy_func(enemyList):
             
 #function for updating the displayed window
 def window_updater(player): 
-    for background in backgrounds:
-        background.draw(window)
-    player.draw(window)
-    for enemy in enemyList:
-        enemy.draw(window)
+    for graphic in graphics:
+        if isinstance(graphic, list):
+            for index in graphic:
+                index.draw(window)
+        else:
+            graphic.draw(window)
     pygame.display.flip()
 
 #creating the displayed window
@@ -65,10 +63,11 @@ pygame.display.set_caption("Jump and run")
 
 #creating necessary objects
 player = Player(width=50, height=50, x=win_width//2, y=300, vel=10)
-enemyList = []
-bg1 = Background(win_width, win_height, x=0, y=0, vel=10, img="BG1.png")
-bg2 = Background(win_width, win_height, x=win_width, y=0, vel=10, img="BG1.png")
+bg1 = Background(win_width, win_height, x=0, y=0, vel=10, img="bg-1.png")
+bg2 = Background(win_width, win_height, x=win_width, y=0, vel=10, img="bg-1.png")
 backgrounds = [bg1, bg2]
+enemyList = []
+graphics = [backgrounds, enemyList, player]
 
 #game flow variables           
 running = True
@@ -78,9 +77,9 @@ paused = False
 while running:
     pygame.time.wait(25)
     
-    event_handler()
+    BasicEvent_handler()
     if not paused:
-        player_handler(player)
+        key_handler(player)
         #enemy_func(enemyList)
     window_updater(player)
 

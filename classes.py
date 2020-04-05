@@ -9,6 +9,8 @@ class GameGraphics():
         self.x = x
         self.y = y
         self.vel = vel
+        self.isMoving_right = False
+        self.isMoving_left = False
 
         if img != None:
             self.graphic = pygame.transform.scale(pygame.image.load(img), (self.width, self.height))
@@ -20,9 +22,13 @@ class GameGraphics():
 
     def move_left(self):
         self.x -= self.vel
+        self.isMoving_left = True
+        self.isMoving_right = False
 
     def move_right(self):
         self.x += self.vel
+        self.isMoving_right = True
+        self.isMoving_left = False
     
 #class for the player
 class Player(GameGraphics):
@@ -59,11 +65,12 @@ class Background(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
 
-    def reposition_right(self):
-        if self.x == -1 * self.width:
-            self.x = self.width
+    def reposition(self):
+        if self.isMoving_left:
+            if self.x <= -1 * self.width:
+                self.x = self.width
 
-    def reposition_left(self):
-        if self.x == self.width:
-            self.x = -1 * self.width
+        elif self.isMoving_right:
+            if self.x >= self.width:
+                self.x = -1 * self.width
         
