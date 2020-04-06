@@ -68,9 +68,9 @@ class Background(GameGraphics):
     def reposition(self):
         if self.isMoving_left:
             if self.x <= -1 * self.width:
-                self.x = self.width
+                self.x = self.width + (self.x + self.width)
 
         elif self.isMoving_right:
             if self.x >= self.width:
-                self.x = -1 * self.width
+                self.x = -1 * self.width + (self.x - self.width)
         

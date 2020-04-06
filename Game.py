@@ -19,7 +19,7 @@ def BasicEvent_handler():
                     paused = False
 
 #function for handling the events of the player
-def key_handler(player):
+def key_handler():
         keys = pygame.key.get_pressed()
 
         for background in backgrounds:
@@ -40,22 +40,21 @@ def key_handler(player):
 #function for working with enemy objects (creating and removing)
 def enemy_func(enemyList):
         if not len(enemyList) > 1:
-            enemyList.append(Enemy(50,50,1000,300,8))
+            enemyList.append(Enemy(50,50,1000,300,15))
         for enemy in enemyList:
             enemy.move_left()
             if enemy.x + enemy.width <= 0:
                 enemyList.clear()
             
 #function for updating the displayed window
-def window_updater(player): 
-    for graphic in graphics:
-        if isinstance(graphic, list):
-            for index in graphic:
-                index.draw(window)
-        else:
-            graphic.draw(window)
-    pygame.display.flip()
-
+def window_draw(graphics): 
+    for graphic in range(len(graphics)):
+        try:
+            graphics[graphic].draw(window)
+        except:
+            window_draw(graphics[graphic])
+            window_draw(graphics[1 + graphic:])
+        
 #creating the displayed window
 win_width, win_height = 1000, 600
 window = pygame.display.set_mode((win_width, win_height))
@@ -63,8 +62,8 @@ pygame.display.set_caption("Jump and run")
 
 #creating necessary objects
 player = Player(width=50, height=50, x=win_width//2, y=300, vel=10)
-bg1 = Background(win_width, win_height, x=0, y=0, vel=10, img="bg-1.png")
-bg2 = Background(win_width, win_height, x=win_width, y=0, vel=10, img="bg-1.png")
+bg1 = Background(win_width, win_height, x=0, y=0, vel=8, img="bg-1.png")
+bg2 = Background(win_width, win_height, x=win_width, y=0, vel=8, img="bg-1.png")
 backgrounds = [bg1, bg2]
 enemyList = []
 graphics = [backgrounds, enemyList, player]
@@ -79,9 +78,10 @@ while running:
     
     BasicEvent_handler()
     if not paused:
-        key_handler(player)
-        #enemy_func(enemyList)
-    window_updater(player)
+        key_handler()
+        enemy_func(enemyList)
+    window_draw(graphics)
+    pygame.display.flip()
 
 #quit everything
 pygame.quit()
