@@ -65,8 +65,11 @@ player = Player(width=50, height=50, x=win_width//2, y=300, vel=10)
 bg1 = Background(win_width, win_height, x=0, y=0, vel=8, img="bg-1.png")
 bg2 = Background(win_width, win_height, x=win_width, y=0, vel=8, img="bg-1.png")
 backgrounds = [bg1, bg2]
+ground = Ground(width= 500, height=250, x=0, y=350, vel=10, img="BottomGras.png")
+ground2 = Ground(width= 500, height=250, x=500, y=350, vel=10, img="BottomGras.png")
+grounds = [ground, ground2]
 enemyList = []
-graphics = [backgrounds, enemyList, player]
+graphics = [backgrounds, grounds, enemyList, player]
 
 #game flow variables           
 running = True

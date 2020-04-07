@@ -74,3 +74,7 @@ class Background(GameGraphics):
             if self.x >= self.width:
                 self.x = -1 * self.width + (self.x - self.width)
         
+#ground
+class Ground(GameGraphics):
+    def __init__(self, width, height, x, y, vel, img = None):
+        super().__init__(width, height, x, y, vel, img)
