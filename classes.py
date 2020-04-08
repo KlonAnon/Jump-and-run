@@ -74,7 +74,16 @@ class Background(GameGraphics):
             if self.x >= self.width:
                 self.x = -1 * self.width + (self.x - self.width)
         
-#ground
+#class for grounds
 class Ground(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
+
+    def reposition(self):
+        if self.isMoving_left:
+            if self.x <= -1 * self.width:
+                self.x = self.width + (self.x + self.width)
+
+        elif self.isMoving_right:
+            if self.x >= self.width:
+                self.x = -1 * self.width + (self.x - self.width)
