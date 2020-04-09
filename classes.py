@@ -60,6 +60,9 @@ class Enemy(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
 
+    def change_vel(self, new_vel):
+        self.vel = new_vel
+
 #class for backgrounds
 class Background(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
