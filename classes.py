@@ -60,6 +60,8 @@ class Enemy(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
 
+        self.normal_vel = vel
+
     def change_vel(self, new_vel):
         self.vel = new_vel
 
@@ -68,25 +70,16 @@ class Background(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
 
-    def reposition(self):
+    def reposition(self, window):
         if self.isMoving_left:
             if self.x <= -1 * self.width:
-                self.x = self.width + (self.x + self.width)
+                self.x = window.get_width() + (self.x + self.width)
 
         elif self.isMoving_right:
-            if self.x >= self.width:
-                self.x = -1 * self.width + (self.x - self.width)
+            if self.x >= window.get_width():
+                self.x = -1 * window.get_width() + (self.x - self.width)
         
 #class for grounds
-class Ground(GameGraphics):
+class Ground(Background):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
-
-    def reposition(self):
-        if self.isMoving_left:
-            if self.x <= -1 * self.width:
-                self.x = self.width + (self.x + self.width)
-
-        elif self.isMoving_right:
-            if self.x >= self.width:
-                self.x = -1 * self.width + (self.x - self.width)

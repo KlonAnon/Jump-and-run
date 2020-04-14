@@ -19,6 +19,11 @@ def basicEvent_handler():
                 elif paused == True:
                     paused = False
 
+        if paused:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    running = False
+
 #function for handling the events of the player
 def key_handler():
         keys = pygame.key.get_pressed()
@@ -27,20 +32,20 @@ def key_handler():
             if keys[pygame.K_LEFT]:
                 graphic.move_right()
                 for enemy in enemyList:
-                    enemy.change_vel(6)
+                    enemy.change_vel(enemy.normal_vel - grounds[0].vel)
                 
             if keys[pygame.K_RIGHT]:
                 graphic.move_left()
                 for enemy in enemyList:
-                    enemy.change_vel(18)
+                    enemy.change_vel(enemy.normal_vel + grounds[0].vel)
 
             if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):
                 graphic.isMoving_right = False
                 graphic.isMoving_left = False
                 for enemy in enemyList:
-                    enemy.change_vel(12)
+                    enemy.change_vel(enemy.normal_vel)
                 
-            graphic.reposition()
+            graphic.reposition(window)
 
         if not player.isJumping:
             if keys[pygame.K_SPACE]:
@@ -75,16 +80,15 @@ pygame.display.set_caption("Jump and run")
 
 
 #creating necessary objects
-    #background
-bg1 = Background(win_width, win_height, x=0, y=0, vel=6,
-                 img=os.path.join("images", "bg-1.png"))
-bg2 = Background(win_width, win_height, x=win_width, y=0, vel=bg1.vel,
-                 img=os.path.join("images", "bg-1.png"))
     #list for all ground and background objects
-grounds = [bg1, bg2]
+grounds = []
+    #background
+for background in range(2):
+    grounds.append(Background(win_width, win_height, x=win_width * background, y=0, vel=6,
+                 img=os.path.join("images", "bg-1.png")))
     #ground
-for ground in range(6):
-    grounds.append(Ground(width= 384, height=384, x=384*ground, y=win_height - 384, vel=10,
+for ground in range(11):
+    grounds.append(Ground(width= 192, height=192, x=192*ground, y=win_height - 192, vel=10,
                  img=os.path.join("images", "BottomGras.png")))
     #enemy
 enemyList = []
