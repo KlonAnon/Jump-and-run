@@ -37,6 +37,7 @@ class Player(GameGraphics):
         
         self.isJumping = False
         self.jumpVelocity = 10
+        self.isKilled = False
 
     def window_boundaries(self, window):   
         if self.x <= 0:
@@ -55,12 +56,20 @@ class Player(GameGraphics):
             self.jumpVelocity = 10
             self.isJumping = False
 
+    def collision(self, graphic):
+        if isinstance(graphic, Enemy):
+            if self.isJumping:
+                graphic.isKilled = True
+            else:
+                self.isKilled = True
+        
 #class for enemies
 class Enemy(GameGraphics):
     def __init__(self, width, height, x, y, vel, img = None):
         super().__init__(width, height, x, y, vel, img)
 
         self.normal_vel = vel
+        self.isKilled = False
 
     def change_vel(self, new_vel):
         self.vel = new_vel

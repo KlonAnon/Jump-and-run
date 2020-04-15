@@ -1,4 +1,5 @@
 from classes import *
+from collisions import *
 import os.path 
 import pygame
 pygame.init()
@@ -26,42 +27,51 @@ def basicEvent_handler():
 
 #function for handling the events of the player
 def player_handler():
-        keys = pygame.key.get_pressed()
+    global running
+    keys = pygame.key.get_pressed()
 
-        for graphic in grounds:
-            if keys[pygame.K_LEFT]:
-                graphic.move_right()
-                for enemy in enemyList:
-                    enemy.change_vel(enemy.normal_vel - grounds[0].vel)
+    for graphic in grounds:
+        if keys[pygame.K_LEFT]:
+            graphic.move_right()
+            for enemy in enemyList:
+                enemy.change_vel(enemy.normal_vel - grounds[0].vel)
                 
-            if keys[pygame.K_RIGHT]:
-                graphic.move_left()
-                for enemy in enemyList:
-                    enemy.change_vel(enemy.normal_vel + grounds[0].vel)
+        if keys[pygame.K_RIGHT]:
+            graphic.move_left()
+            for enemy in enemyList:
+                enemy.change_vel(enemy.normal_vel + grounds[0].vel)
 
-            if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):
-                graphic.isMoving_right = False
-                graphic.isMoving_left = False
-                for enemy in enemyList:
-                    enemy.change_vel(enemy.normal_vel)
+        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):
+            graphic.isMoving_right = False
+            graphic.isMoving_left = False
+            for enemy in enemyList:
+                enemy.change_vel(enemy.normal_vel)
                 
-            graphic.reposition(window)
+        graphic.reposition(window)
 
-        if not player.isJumping:
-            if keys[pygame.K_SPACE]:
-                player.isJumping = True
-                player.jump()
-        if player.isJumping:
+    if not player.isJumping:
+        if keys[pygame.K_SPACE]:
+            player.isJumping = True
             player.jump()
+    if player.isJumping:
+        player.jump()
 
+    collision_detector(enemyList, player)
+    
+    if player.isKilled == True:
+        running = False
+    
 #function for working with enemy objects (creating and removing)
 def enemy_func(enemyList):
-        if not len(enemyList) > 1:
-            enemyList.append(Enemy(width=50,height=50,x=win_width,y=grounds[2].y - 50,vel=player.vel + 2))
-        for enemy in enemyList:
-            enemy.move_left()
-            if enemy.x + enemy.width <= 0:
-                enemyList.clear()
+    if not len(enemyList) > 0:
+        enemyList.append(Enemy(width=50,height=50,x=win_width,y=grounds[2].y - 50,vel=player.vel + 2))
+           
+    for enemy in enemyList:
+        enemy.move_left()
+        if enemy.x + enemy.width <= 0:
+            enemyList.remove(enemy)
+        elif enemy.isKilled:
+            enemyList.remove(enemy)
             
 #function for updating the displayed window
 def window_draw(graphics): 
@@ -109,8 +119,8 @@ while running:
     basicEvent_handler()
     
     if not paused:
-        player_handler()
         enemy_func(enemyList)
+        player_handler()
 
     window_draw(graphics)
     pygame.display.flip()
