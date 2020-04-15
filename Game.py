@@ -25,7 +25,7 @@ def basicEvent_handler():
                     running = False
 
 #function for handling the events of the player
-def key_handler():
+def player_handler():
         keys = pygame.key.get_pressed()
 
         for graphic in grounds:
@@ -109,7 +109,7 @@ while running:
     basicEvent_handler()
     
     if not paused:
-        key_handler()
+        player_handler()
         enemy_func(enemyList)
 
     window_draw(graphics)
