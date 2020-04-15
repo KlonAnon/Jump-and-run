@@ -57,6 +57,7 @@ def player_handler():
         player.jump()
 
     collision_detector(enemyList, player)
+    collision_detector(grounds, player)
     
     if player.isKilled == True:
         running = False

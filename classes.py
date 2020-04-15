@@ -62,6 +62,12 @@ class Player(GameGraphics):
                 graphic.isKilled = True
             else:
                 self.isKilled = True
+
+        elif isinstance(graphic, Ground):
+            if graphic.isMoving_right:
+                self.x = graphic.x + graphic.width
+            elif graphic.isMoving_left:
+                self.x = graphic.x - self.width
         
 #class for enemies
 class Enemy(GameGraphics):
