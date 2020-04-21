@@ -1,23 +1,25 @@
 from classes import *
 from collisions import *
-import os.path 
+import os.path
 import pygame
+
 pygame.init()
 
-#function for basic event handling        
-def basicEvent_handler():
+
+# function for basic event handling
+def basic_handler():
     global running
     global paused
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                if paused == False:
+                if not paused:
                     paused = True
-                elif paused == True:
+                elif paused:
                     paused = False
 
         if paused:
@@ -25,7 +27,8 @@ def basicEvent_handler():
                 if event.key == pygame.K_RETURN:
                     running = False
 
-#function for handling the events of the player
+
+# function for handling the events of the player
 def player_handler():
     global running
     keys = pygame.key.get_pressed()
@@ -35,7 +38,7 @@ def player_handler():
             graphic.move_right()
             for enemy in enemyList:
                 enemy.change_vel(enemy.normal_vel - grounds[0].vel)
-                
+
         if keys[pygame.K_RIGHT]:
             graphic.move_left()
             for enemy in enemyList:
@@ -46,7 +49,7 @@ def player_handler():
             graphic.isMoving_left = False
             for enemy in enemyList:
                 enemy.change_vel(enemy.normal_vel)
-                
+
         graphic.reposition(window)
 
     if not player.isJumping:
@@ -58,67 +61,74 @@ def player_handler():
 
     collision_detector(enemyList, player)
     collision_detector(grounds, player)
-    
-    if player.isKilled == True:
+
+    if player.isKilled:
         running = False
-    
-#function for working with enemy objects (creating and removing)
+
+
+# function for working with enemy objects (creating and removing)
 def enemy_func(enemyList):
     if not len(enemyList) > 0:
-        enemyList.append(Enemy(width=50,height=50,x=win_width,y=grounds[2].y - 50,vel=player.vel + 2))
-           
+        enemyList.append(Enemy(width=50, height=50, x=win_width, y=grounds[2].y - 50, vel=player.vel + 2))
+
+    delete = []
+
     for enemy in enemyList:
         enemy.move_left()
         if enemy.x + enemy.width <= 0:
-            enemyList.remove(enemy)
+            delete.append(enemy)
         elif enemy.isKilled:
-            enemyList.remove(enemy)
-            
-#function for updating the displayed window
-def window_draw(graphics): 
+            delete.append(enemy)
+
+    for enemy in delete:
+        enemyList.remove(enemy)
+
+    delete.clear()
+
+
+# function for updating the displayed window
+def window_draw(graphics):
     for graphic in range(len(graphics)):
         try:
             graphics[graphic].draw(window)
-        except:
+        except AttributeError:
             window_draw(graphics[graphic])
             window_draw(graphics[1 + graphic:])
-        
 
-#creating the displayed window
+
+# creating the displayed window
 win_width, win_height = 1920, 1080
 window = pygame.display.set_mode((win_width, win_height), pygame.FULLSCREEN)
 pygame.display.set_caption("Jump and run")
 
-
-#creating necessary objects
-    #list for all ground and background objects
+# creating necessary objects
+# list for all ground and background objects
 grounds = []
-    #background
+# background
 for background in range(2):
     grounds.append(Background(win_width, win_height, x=win_width * background, y=0, vel=6,
-                 img=os.path.join("images", "bg-1.png")))
-    #ground
+                              img=os.path.join("images", "bg-1.png")))
+# ground
 for ground in range(11):
-    grounds.append(Ground(width= 192, height=192, x=192*ground, y=win_height - 192, vel=10,
-                 img=os.path.join("images", "BottomGras.png")))
-    #enemy
+    grounds.append(Ground(width=192, height=192, x=192 * ground, y=win_height - 192, vel=10,
+                          img=os.path.join("images", "BottomGras.png")))
+# enemy
 enemyList = []
-    #player
-player = Player(width=50, height=50, x=win_width//2, y=grounds[2].y - 50, vel=10)
-    #graphics list
+# player
+player = Player(width=50, height=50, x=win_width // 2, y=grounds[2].y - 50, vel=10)
+# graphics list
 graphics = [grounds, enemyList, player]
 
-
-#game flow variables           
+# game flow variables
 running = True
 paused = False
 
-#main game loop 
+# main game loop
 while running:
     pygame.time.wait(25)
-    
-    basicEvent_handler()
-    
+
+    basic_handler()
+
     if not paused:
         enemy_func(enemyList)
         player_handler()
@@ -126,5 +136,5 @@ while running:
     window_draw(graphics)
     pygame.display.flip()
 
-#quit everything
+# quit everything
 pygame.quit()

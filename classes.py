@@ -1,9 +1,11 @@
 import pygame
+
 pygame.init()
 
-#superclass for game graphics
-class GameGraphics():
-    def __init__(self, width, height, x, y, vel, img = None):
+
+# superclass for game graphics
+class GameGraphics:
+    def __init__(self, width, height, x, y, vel, img=None):
         self.width = width
         self.height = height
         self.x = x
@@ -29,21 +31,22 @@ class GameGraphics():
         self.x += self.vel
         self.isMoving_right = True
         self.isMoving_left = False
-    
-#class for the player
+
+
+# class for the player
 class Player(GameGraphics):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
-        
+
         self.isJumping = False
         self.jumpVelocity = 10
         self.isKilled = False
 
-    def window_boundaries(self, window):   
+    def window_boundaries(self, window):
         if self.x <= 0:
             self.x = 0
         elif self.x >= window.get_width() - self.width:
-            self.x = window.get_width() - self.width 
+            self.x = window.get_width() - self.width
 
     def jump(self):
         if self.jumpVelocity >= -10:
@@ -68,10 +71,11 @@ class Player(GameGraphics):
                 self.x = graphic.x + graphic.width
             elif graphic.isMoving_left:
                 self.x = graphic.x - self.width
-        
-#class for enemies
+
+
+# class for enemies
 class Enemy(GameGraphics):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
 
         self.normal_vel = vel
@@ -80,9 +84,10 @@ class Enemy(GameGraphics):
     def change_vel(self, new_vel):
         self.vel = new_vel
 
-#class for backgrounds
+
+# class for backgrounds
 class Background(GameGraphics):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
 
     def reposition(self, window):
@@ -93,8 +98,9 @@ class Background(GameGraphics):
         elif self.isMoving_right:
             if self.x >= window.get_width():
                 self.x = -1 * window.get_width() + (self.x - self.width)
-        
-#class for grounds
+
+
+# class for grounds
 class Ground(Background):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
