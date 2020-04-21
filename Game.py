@@ -24,6 +24,18 @@ def basicEvent_handler():
                 if event.key == pygame.K_RETURN:
                     running = False
 
+            for graphic in pausedModeGraphics:
+                graphic.draw(window)
+                
+        elif paused:
+            for graphic in button:
+                graphic.draw()
+
+            
+
+       
+        
+
 #function for handling the events of the player
 def key_handler():
         keys = pygame.key.get_pressed()
@@ -96,6 +108,14 @@ enemyList = []
 player = Player(width=50, height=50, x=win_width//2, y=grounds[2].y - 50, vel=10)
     #graphics list
 graphics = [grounds, enemyList, player]
+    #pausemode graphics
+transparent = GameGraphics(width= win_width,height = win_height, x=0, y=0, vel=0,
+                 img=os.path.join("images", "black.png"))
+transparent.graphic.set_alpha(100)
+
+button = GameGraphics(width= win_width,height = win_height, x=50, y=50, vel=0,
+                 img=os.path.join("images", "Buttontest1.png"))
+pausedModeGraphics = [transparent, button]
 
 
 #game flow variables           
@@ -111,8 +131,8 @@ while running:
     if not paused:
         key_handler()
         enemy_func(enemyList)
-
-    window_draw(graphics)
+        window_draw(graphics)
+        
     pygame.display.flip()
 
 #quit everything
