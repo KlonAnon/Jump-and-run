@@ -14,7 +14,7 @@ class GameGraphics:
         self.isMoving_right = False
         self.isMoving_left = False
 
-        if img != None:
+        if img is not None:
             self.graphic = pygame.transform.scale(pygame.image.load(img), (self.width, self.height))
         else:
             self.graphic = pygame.Surface((self.width, self.height))
