@@ -1,9 +1,11 @@
 import pygame
+
 pygame.init()
 
-#superclass for game graphics
-class GameGraphics():
-    def __init__(self, width, height, x, y, vel, img = None):
+
+# superclass for game graphics
+class GameGraphics:
+    def __init__(self, width, height, x=0, y=0, vel=0, img=None):
         self.width = width
         self.height = height
         self.x = x
@@ -12,7 +14,7 @@ class GameGraphics():
         self.isMoving_right = False
         self.isMoving_left = False
 
-        if img != None:
+        if img is not None:
             self.graphic = pygame.transform.scale(pygame.image.load(img), (self.width, self.height))
         else:
             self.graphic = pygame.Surface((self.width, self.height))
@@ -29,20 +31,42 @@ class GameGraphics():
         self.x += self.vel
         self.isMoving_right = True
         self.isMoving_left = False
-    
-#class for the player
+
+
+# class for buttons
+class Button:
+    def __init__(self, width, height, x, y, txt_type, size, txt, color, img=None):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+
+        self.font = pygame.font.SysFont(txt_type, size)
+        self.text = self.font.render(txt, True, color)
+
+        if img is not None:
+            self.graphic = pygame.transform.scale(pygame.image.load(img), (self.width, self.height))
+        else:
+            self.graphic = pygame.Surface((self.width, self.height))
+
+    def draw(self, window):
+        window.blit(self.graphic, (self.x, self.y))
+        window.blit(self.text, ((self.x*2 + self.width)//2, (self.y*2 + self.height)//2))
+
+
+# class for the player
 class Player(GameGraphics):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
-        
+
         self.isJumping = False
         self.jumpVelocity = 10
 
-    def window_boundaries(self, window):   
+    def window_boundaries(self, window):
         if self.x <= 0:
             self.x = 0
         elif self.x >= window.get_width() - self.width:
-            self.x = window.get_width() - self.width 
+            self.x = window.get_width() - self.width
 
     def jump(self):
         if self.jumpVelocity >= -10:
@@ -55,9 +79,10 @@ class Player(GameGraphics):
             self.jumpVelocity = 10
             self.isJumping = False
 
-#class for enemies
+
+# class for enemies
 class Enemy(GameGraphics):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
 
         self.normal_vel = vel
@@ -65,9 +90,10 @@ class Enemy(GameGraphics):
     def change_vel(self, new_vel):
         self.vel = new_vel
 
-#class for backgrounds
+
+# class for backgrounds
 class Background(GameGraphics):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)
 
     def reposition(self, window):
@@ -78,8 +104,9 @@ class Background(GameGraphics):
         elif self.isMoving_right:
             if self.x >= window.get_width():
                 self.x = -1 * window.get_width() + (self.x - self.width)
-        
-#class for grounds
+
+
+# class for grounds
 class Ground(Background):
-    def __init__(self, width, height, x, y, vel, img = None):
+    def __init__(self, width, height, x, y, vel, img=None):
         super().__init__(width, height, x, y, vel, img)

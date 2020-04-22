@@ -109,8 +109,8 @@ transparent = GameGraphics(width=win_width, height=win_height, x=0, y=0, vel=0,
                            img=os.path.join("images", "black.png"))
 transparent.graphic.set_alpha(50)
 
-buttons = GameGraphics(width=win_width, height=win_height, x=50, y=50, vel=0,
-                       img=os.path.join("images", "buttons.png"))
+buttons = Button(width=300, height=50, x=win_width // 2, y=win_height // 2, txt_type="comicsans", size=50,
+                 txt="test", color=(0, 0, 0), img=os.path.join("images", "button.png"))
 # graphics list
 graphics = [grounds, enemyList, player, pausedGraphics]
 
