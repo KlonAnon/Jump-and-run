@@ -104,13 +104,15 @@ enemyList = []
 player = Player(width=50, height=50, x=win_width // 2, y=grounds[2].y - 50, vel=10)
 # pause mode graphics
 pausedGraphics = []
-
 transparent = GameGraphics(width=win_width, height=win_height, x=0, y=0, vel=0,
                            img=os.path.join("images", "black.png"))
 transparent.graphic.set_alpha(50)
 
-buttons = Button(width=300, height=50, x=win_width // 2, y=win_height // 2, txt_type="comicsans", size=50,
-                 txt="test", color=(0, 0, 0), img=os.path.join("images", "button.png"))
+buttons = []
+texts = ["Exit pause [ESC]", "Exit game [ENTER]"]
+for button in range(2):
+    buttons.append(Button(width=500, height=100, x=win_width//2 - 250, y=150*(1+button), txt_type="comicsans", size=50,
+                          txt=texts[button], color=(0, 0, 0), img=os.path.join("images", "button.png")))
 # graphics list
 graphics = [grounds, enemyList, player, pausedGraphics]
 

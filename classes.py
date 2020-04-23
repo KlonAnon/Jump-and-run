@@ -51,7 +51,8 @@ class Button:
 
     def draw(self, window):
         window.blit(self.graphic, (self.x, self.y))
-        window.blit(self.text, ((self.x*2 + self.width)//2, (self.y*2 + self.height)//2))
+        window.blit(self.text, (self.x + self.width//2 - self.text.get_width()//2,
+                                self.y + self.height//2 - self.text.get_height()//2))
 
 
 # class for the player
