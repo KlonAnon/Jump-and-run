@@ -5,7 +5,7 @@ pygame.init()
 
 # superclass for game graphics
 class GameGraphics:
-    def __init__(self, width, height, x, y, vel, img=None):
+    def __init__(self, width, height, x=0, y=0, vel=0, img=None):
         self.width = width
         self.height = height
         self.x = x
@@ -31,6 +31,28 @@ class GameGraphics:
         self.x += self.vel
         self.isMoving_right = True
         self.isMoving_left = False
+
+
+# class for buttons
+class Button:
+    def __init__(self, width, height, x, y, txt_type, size, txt, color, img=None):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+
+        self.font = pygame.font.SysFont(txt_type, size)
+        self.text = self.font.render(txt, True, color)
+
+        if img is not None:
+            self.graphic = pygame.transform.scale(pygame.image.load(img), (self.width, self.height))
+        else:
+            self.graphic = pygame.Surface((self.width, self.height))
+
+    def draw(self, window):
+        window.blit(self.graphic, (self.x, self.y))
+        window.blit(self.text, (self.x + self.width//2 - self.text.get_width()//2,
+                                self.y + self.height//2 - self.text.get_height()//2))
 
 
 # class for the player
