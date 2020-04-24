@@ -47,7 +47,7 @@ def player_handler():
             for enemy in enemyList:
                 enemy.change_vel(enemy.normal_vel + grounds[0].vel)
 
-        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):
+        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]) or (keys[pygame.K_LEFT] and keys[pygame.K_RIGHT]):
             graphic.isMoving_right = False
             graphic.isMoving_left = False
             for enemy in enemyList:
@@ -70,9 +70,9 @@ def player_handler():
 
 
 # function for working with enemy objects (creating and removing)
-def enemy_func(enemyList):
+def enemy_func(enemyList: list):
     if not len(enemyList) > 0:
-        enemyList.append(Enemy(width=50, height=50, x=win_width, y=grounds[2].y - 50, vel=player.vel + 2))
+        enemyList.append(Enemy(width=50, height=50, x=win_width, y=grounds[2].y - 50, vel=player.vel))
 
     delete = []
 
@@ -90,7 +90,7 @@ def enemy_func(enemyList):
 
 
 # function for updating the displayed window
-def window_draw(graphics):
+def window_draw(graphics: list):
     for graphic in range(len(graphics)):
         try:
             graphics[graphic].draw(window)
@@ -127,8 +127,8 @@ transparent = GameGraphics(width=win_width, height=win_height, x=0, y=0, vel=0,
 transparent.graphic.set_alpha(50)
 
 buttons = []
-texts = ["Exit pause [ESC]", "Exit game [ENTER]"]
-for button in range(2):
+texts = ["Exit pause [ESC]", "Settings", "About this game", "Exit game [ENTER]"]
+for button in range(4):
     buttons.append(Button(width=500, height=100, x=win_width//2 - 250, y=150*(1+button), txt_type="comicsans", size=50,
                           txt=texts[button], color=(0, 0, 0), img=os.path.join("images", "button.png")))
 # graphics list
