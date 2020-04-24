@@ -19,6 +19,8 @@ def basic_handler():
             if event.key == pygame.K_ESCAPE:
                 if not paused:
                     paused = True
+                    pausedGraphics.append(transparent)
+                    pausedGraphics.append(buttons)
                 elif paused:
                     paused = False
                     pausedGraphics.clear()
@@ -27,9 +29,6 @@ def basic_handler():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     running = False
-
-            pausedGraphics.append(transparent)
-            pausedGraphics.append(buttons)
 
 
 # function for handling the events of the player
@@ -122,6 +121,7 @@ enemyList = []
 player = Player(width=50, height=50, x=win_width // 2, y=grounds[2].y - 50, vel=10)
 # pause mode graphics
 pausedGraphics = []
+
 transparent = GameGraphics(width=win_width, height=win_height, x=0, y=0, vel=0,
                            img=os.path.join("images", "black.png"))
 transparent.graphic.set_alpha(50)
